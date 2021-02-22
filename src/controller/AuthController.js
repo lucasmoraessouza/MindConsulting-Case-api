@@ -13,7 +13,7 @@ module.exports = {
   async register(req, res) {
     try {
       //receber os dados do front
-      let { name, cpf, email, password, level } = req.body
+      let { name, cpf, email, password } = req.body
 
       password = await bcrypt.hashSync(password, 10)
       const userCPF = await knex('user').select().where('cpf', cpf)
@@ -28,16 +28,17 @@ module.exports = {
         return res.json({ error: 'Email já cadastrado.' })
       }
 
-      const user = {
+      const infoUser = {
         name,
         cpf,
         email,
         password,
-        level,
+        level: 1,
         image: 'null',
       }
 
-      await knex('user').insert(user)
+      const id = await knex('user').insert(infoUser)
+      const user = { ...infoUser, id: id[0] }
       return res.json({
         user,
         token: jwt.sign({ id: user.id, level: user.level }, key.secret, {
@@ -60,15 +61,17 @@ module.exports = {
         user = await knex('user').select().where('cpf', usuario)
 
         if (user.length === 0) {
-          return res.json({ message: 'Email ou CPF inválido.' })
+          return res.json({ error: 'Email ou CPF inválido.' })
         }
       }
 
       if (!(await bcrypt.compare(password, user[0].password))) {
-        return res.json({ message: 'Senha inválida.' })
+        return res.json({ error: 'Senha inválida.' })
       }
 
       user[0].password = undefined
+      if (user[0].level == 0) return res.json({ error: 'Usuario Desativado!' })
+
       return res.json({
         user: user[0],
         token: jwt.sign({ id: user[0].id, level: user[0].level }, key.secret, {

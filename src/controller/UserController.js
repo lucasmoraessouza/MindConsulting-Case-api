@@ -58,7 +58,7 @@ module.exports = {
         return res.json({ error: 'Usuário não encontrado.' })
       }
 
-      return res.json(tabelaUser)
+      return res.json({ user: tabelaUser[0] })
     } catch (err) {
       return res.json({ error: 'Não foi possível listar' })
     }
