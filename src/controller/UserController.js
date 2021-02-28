@@ -28,15 +28,13 @@ module.exports = {
 
   async update(req, res) {
     try {
-      const { filename } = req.file
       const { id } = req.params
       let dataUser = req.body
       if (dataUser.password) {
         dataUser.password = await bcrypt.hashSync(dataUser.password, 10)
       }
-      let newDataUser = { ...dataUser, image: filename }
 
-      await knex('user').update(newDataUser).where('id', id)
+      await knex('user').update(dataUser).where('id', id)
       return res.json({ message: 'Dados alterado com sucesso.' })
     } catch (err) {
       return res.json({ error: 'Não foi possível alterar os dados.' })
@@ -78,6 +76,18 @@ module.exports = {
       await knex('user').del().where('id', id)
 
       return res.json({ message: 'Usuário excluído com sucesso.' })
+    } catch (err) {
+      return res.json({ error: 'Não foi possível excluir usuário.' })
+    }
+  },
+  async upload(req, res) {
+    try {
+      const { filename } = req.file
+      const { id } = req.params
+
+      await knex('user').update({ image: filename }).where('id', id)
+
+      return res.json({ image: filename })
     } catch (err) {
       return res.json({ error: 'Não foi possível excluir usuário.' })
     }

@@ -27,12 +27,12 @@ routes.delete('/user/:id', UserController.destroy)
 routes.get('/user/:id', UserController.selectOne)
 routes.get('/users', UserController.select)
 
+routes.put('/user/:id', UserController.update)
 routes.put(
-  '/user/:id',
+  '/image/:id',
   multer(MulterConfig).single('file'),
-  UserController.update
+  UserController.upload
 )
-
 routes.put('/desative/:id', UserController.desative)
 routes.put('/active/:id', UserController.active)
 
