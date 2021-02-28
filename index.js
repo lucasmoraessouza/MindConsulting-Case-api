@@ -8,4 +8,4 @@ app.use(cors())
 app.use(express.json()) //formato de enviar dados
 app.use(routes)
 
-app.listen(3000, () => console.log('running'))
+app.listen(4000, () => console.log('running'))

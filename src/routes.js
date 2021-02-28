@@ -2,7 +2,9 @@ const express = require('express')
 const { login } = require('./controller/AuthController')
 const routes = express.Router()
 const middletoken = require('./middleware/token')
-
+const multer = require('multer')
+const MulterConfig = require('./config/multer')
+const path = require('path')
 const AuthController = require('./controller/AuthController')
 const UserController = require('./controller/UserController')
 
@@ -12,6 +14,11 @@ const UserController = require('./controller/UserController')
 //delete - deletar dados
 //put - alterar dados
 
+//rota para acessar os uploads de imagem.
+routes.use(
+  '/upload',
+  express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+)
 routes.post('/register', AuthController.register)
 routes.post('/login', AuthController.login)
 
@@ -19,7 +26,13 @@ routes.use(middletoken)
 routes.delete('/user/:id', UserController.destroy)
 routes.get('/user/:id', UserController.selectOne)
 routes.get('/users', UserController.select)
-routes.put('/user/:id', UserController.update)
+
+routes.put(
+  '/user/:id',
+  multer(MulterConfig).single('file'),
+  UserController.update
+)
+
 routes.put('/desative/:id', UserController.desative)
 routes.put('/active/:id', UserController.active)
 

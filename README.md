@@ -34,21 +34,21 @@ $ yarn dev
 
 ### Rotas
 
-- http://localhost:3000/login [POST] (Fazer login no sistema com E-mail ou CPF)
+- http://localhost:4000/login [POST] (Fazer login no sistema com E-mail ou CPF)
 
-- http://localhost:3000/register [POST] (Criar uma conta no sistema utilizando Nome, Cpf, E-mail e Senha)
+- http://localhost:4000/register [POST] (Criar uma conta no sistema utilizando Nome, Cpf, E-mail e Senha)
 
-- http://localhost:3000/users [GET] (Listar usuários cadastrados no sistema.)
+- http://localhost:4000/users [GET] (Listar usuários cadastrados no sistema.)
 
-- http://localhost:3000/user/:id [GET] (Listar dados de um único usuario pelo ID)
+- http://localhost:4000/user/:id [GET] (Listar dados de um único usuario pelo ID)
 
-- http://localhost:3000/user/:id [DELETE] (Excluir usuário pelo ID)
+- http://localhost:4000/user/:id [DELETE] (Excluir usuário pelo ID)
 
-- http://localhost:3000/user/:id [PUT] (Atualizar dados de um único usuario pelo ID)
+- http://localhost:4000/user/:id [PUT] (Atualizar dados de um único usuario pelo ID)
 
-- http://localhost:3000/desative/:id [PUT] (Desativar usuario pelo ID)
+- http://localhost:4000/desative/:id [PUT] (Desativar usuario pelo ID)
 
-- http://localhost:3000/active/:id [PUT] (Ativar um usuário pelo ID)
+- http://localhost:4000/active/:id [PUT] (Ativar um usuário pelo ID)
 
 ## Autores
 

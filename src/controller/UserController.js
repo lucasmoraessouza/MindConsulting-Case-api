@@ -1,4 +1,5 @@
 const knex = require('../database')
+const bcrypt = require('bcrypt')
 
 module.exports = {
   async desative(req, res) {
@@ -27,9 +28,15 @@ module.exports = {
 
   async update(req, res) {
     try {
+      const { filename } = req.file
       const { id } = req.params
       let dataUser = req.body
-      await knex('user').update(dataUser).where('id', id)
+      if (dataUser.password) {
+        dataUser.password = await bcrypt.hashSync(dataUser.password, 10)
+      }
+      let newDataUser = { ...dataUser, image: filename }
+
+      await knex('user').update(newDataUser).where('id', id)
       return res.json({ message: 'Dados alterado com sucesso.' })
     } catch (err) {
       return res.json({ error: 'Não foi possível alterar os dados.' })
@@ -57,7 +64,7 @@ module.exports = {
       if (tabelaUser.length === 0) {
         return res.json({ error: 'Usuário não encontrado.' })
       }
-
+      tabelaUser[0].password = undefined
       return res.json({ user: tabelaUser[0] })
     } catch (err) {
       return res.json({ error: 'Não foi possível listar' })
